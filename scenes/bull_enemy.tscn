@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bk6r5305n7hru"]
+[gd_scene load_steps=8 format=3 uid="uid://bk6r5305n7hru"]
 
 [ext_resource type="Script" uid="uid://ck8k018dbdxqj" path="res://scripts/bull_enemy.gd" id="1_66jmy"]
 [ext_resource type="Texture2D" uid="uid://df20tq4ylicyj" path="res://arts/enemies.png" id="1_emywo"]
 [ext_resource type="Script" uid="uid://bjs1rn3do52ws" path="res://scripts/attack.gd" id="2_ydw5f"]
 [ext_resource type="Script" uid="uid://yabvi1um860x" path="res://scripts/damageable.gd" id="4_8njoj"]
+[ext_resource type="Script" uid="uid://iyf2pvdgdq2g" path="res://scripts/iframe_alpha.gd" id="5_fk1ii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_emywo"]
 size = Vector2(14, 13)
@@ -42,5 +43,11 @@ script = ExtResource("4_8njoj")
 max_health = 2
 health = 2
 metadata/_custom_type_script = "uid://yabvi1um860x"
+
+[node name="IFrameAlpha" type="Node" parent="." node_paths=PackedStringArray("node_to_adjust", "damageable")]
+script = ExtResource("5_fk1ii")
+node_to_adjust = NodePath("..")
+damageable = NodePath("../Damageable")
+metadata/_custom_type_script = "uid://iyf2pvdgdq2g"
 
 [connection signal="on_death" from="Damageable" to="." method="_on_damageable_on_death"]

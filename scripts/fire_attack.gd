@@ -4,10 +4,12 @@ class_name FireAttack
 @export var radius: float = 100
 @export var clockwise: bool = true
 @export_range(0, 360, 0.1, "radians_as_degrees") var angle_per_second :=  deg_to_rad(45)
+@onready var attack = $Attack
 
 var angle: float
 
 func _ready():
+	attack.attack_hit.connect(func(body): delete_attack())
 	angle = (position - target.position).angle()
 
 func _physics_process(delta):
@@ -19,7 +21,8 @@ func _physics_process(delta):
 	var destination = target.position + offset
 	position = destination
 	
-
+func delete_attack():
+	queue_free()
 
 func _on_timer_timeout():
-	queue_free()
+	delete_attack()

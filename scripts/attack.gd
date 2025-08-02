@@ -2,6 +2,8 @@ extends Area2D
 class_name Attack
 @export var amount := 1
 
+signal attack_hit(body: Node2D)
+
 func _ready():
 	body_entered.connect(_on_body_entered)
 	
@@ -11,3 +13,4 @@ func _on_body_entered(body):
 		# collision layer.
 		if child is Damageable:
 			child.change_health(-amount)
+			attack_hit.emit(body)
