@@ -1,4 +1,4 @@
-extends Node
+extends Controller
 class_name CpuController
 @export var actions = []
 @export var loops := 3
@@ -13,7 +13,7 @@ func _ready():
 	running_sequence = actions.duplicate()
 
 func _physics_process(delta):
-	if loops <= 0 and  current_action == null:
+	if loops <= 0 and current_action == null:
 		get_parent().queue_free()
 		return
 	if current_action:
@@ -35,3 +35,5 @@ func perform_action(action, delta):
 	match action['type']:
 		'move':
 			player.velocity = action['direction'] * player.speed
+		'spell':
+			cast_spell.emit(action['spell'])

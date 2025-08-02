@@ -1,0 +1,69 @@
+[gd_scene load_steps=10 format=3 uid="uid://b1qpth3ggov18"]
+
+[ext_resource type="Script" uid="uid://blo0ucrngdcku" path="res://scripts/shuriken_attack.gd" id="1_kjp4g"]
+[ext_resource type="Texture2D" uid="uid://c486ulp5a1qnx" path="res://arts/shuriken.png" id="1_r4k2c"]
+[ext_resource type="Script" uid="uid://bjs1rn3do52ws" path="res://scripts/attack.gd" id="2_pif11"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pif11"]
+atlas = ExtResource("1_r4k2c")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjp4g"]
+atlas = ExtResource("1_r4k2c")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_toul7"]
+atlas = ExtResource("1_r4k2c")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ketcw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pif11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjp4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_toul7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r4k2c"]
+radius = 5.09902
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pif11"]
+radius = 9.0
+
+[node name="ShurikenAttack" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_kjp4g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ketcw")
+frame_progress = 0.612323
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_r4k2c")
+
+[node name="Attack" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("2_pif11")
+metadata/_custom_type_script = "uid://bjs1rn3do52ws"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+shape = SubResource("CircleShape2D_pif11")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

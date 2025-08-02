@@ -17,3 +17,10 @@ texture = ExtResource("1_56udc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_56udc")
+
+[node name="SpellCastTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="SpellCastTimer" to="." method="_on_spell_cast_timer_timeout"]

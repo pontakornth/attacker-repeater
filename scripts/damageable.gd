@@ -1,4 +1,5 @@
 extends Node
+class_name Damageable
 @export var max_health := 20
 @export var health := max_health
 

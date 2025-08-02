@@ -1,0 +1,75 @@
+[gd_scene load_steps=12 format=3 uid="uid://bb0uu6e1qqt21"]
+
+[ext_resource type="Texture2D" uid="uid://dvmsj4henj3ax" path="res://arts/fire-attack.png" id="1_8fnuo"]
+[ext_resource type="Script" uid="uid://bkmw2iom4mu0x" path="res://scripts/fire_attack.gd" id="1_y45gd"]
+[ext_resource type="Script" uid="uid://bjs1rn3do52ws" path="res://scripts/attack.gd" id="2_rjy0l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rjy0l"]
+atlas = ExtResource("1_8fnuo")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y45gd"]
+atlas = ExtResource("1_8fnuo")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xa58i"]
+atlas = ExtResource("1_8fnuo")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4m7m"]
+atlas = ExtResource("1_8fnuo")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kiyxa"]
+atlas = ExtResource("1_8fnuo")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gqx6m"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rjy0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y45gd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xa58i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4m7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kiyxa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8fnuo"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rjy0l"]
+radius = 7.0
+
+[node name="FireAttack" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_y45gd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gqx6m")
+frame_progress = 0.0577999
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8fnuo")
+
+[node name="Attack" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("2_rjy0l")
+metadata/_custom_type_script = "uid://bjs1rn3do52ws"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+shape = SubResource("CircleShape2D_rjy0l")
