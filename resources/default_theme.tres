@@ -1,3 +1,6 @@
-[gd_resource type="Theme" format=3 uid="uid://mfjopp4voeql"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://mfjopp4voeql"]
+
+[ext_resource type="FontFile" uid="uid://d1ts1tma8rs55" path="res://fonts/Kenney High Square.ttf" id="1_mwhd1"]
 
 [resource]
+default_font = ExtResource("1_mwhd1")

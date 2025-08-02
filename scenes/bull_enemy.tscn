@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://bk6r5305n7hru"]
+
+[ext_resource type="Script" uid="uid://ck8k018dbdxqj" path="res://scripts/bull_enemy.gd" id="1_66jmy"]
+[ext_resource type="Texture2D" uid="uid://df20tq4ylicyj" path="res://arts/enemies.png" id="1_emywo"]
+[ext_resource type="Script" uid="uid://bjs1rn3do52ws" path="res://scripts/attack.gd" id="2_ydw5f"]
+[ext_resource type="Script" uid="uid://yabvi1um860x" path="res://scripts/damageable.gd" id="4_8njoj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emywo"]
+size = Vector2(14, 13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ydw5f"]
+size = Vector2(11, 9)
+
+[node name="BullEnemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 4
+motion_mode = 1
+script = ExtResource("1_66jmy")
+speed = 40
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = ExtResource("1_emywo")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 1.5)
+shape = SubResource("RectangleShape2D_emywo")
+
+[node name="Attack" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource("2_ydw5f")
+amount = 2
+metadata/_custom_type_script = "uid://bjs1rn3do52ws"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+position = Vector2(0.5, 1.5)
+shape = SubResource("RectangleShape2D_ydw5f")
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("4_8njoj")
+max_health = 2
+health = 2
+metadata/_custom_type_script = "uid://yabvi1um860x"
+
+[connection signal="on_death" from="Damageable" to="." method="_on_damageable_on_death"]

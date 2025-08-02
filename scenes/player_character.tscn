@@ -1,19 +1,74 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3gmrxeqv2oos"]
+[gd_scene load_steps=11 format=3 uid="uid://b3gmrxeqv2oos"]
 
 [ext_resource type="Script" uid="uid://c2tqljr5r6mby" path="res://scripts/player_character.gd" id="1_6r27q"]
-[ext_resource type="Texture2D" uid="uid://bet3utbntui5l" path="res://icon.svg" id="1_56udc"]
+[ext_resource type="Texture2D" uid="uid://bsa62o1bswkk2" path="res://arts/wizard.png" id="2_6r27q"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6r27q"]
+atlas = ExtResource("2_6r27q")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uj7mf"]
+atlas = ExtResource("2_6r27q")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vmgx"]
+atlas = ExtResource("2_6r27q")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6unfe"]
+atlas = ExtResource("2_6r27q")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kww55"]
+atlas = ExtResource("2_6r27q")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4h0vy"]
+atlas = ExtResource("2_6r27q")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uj7mf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6r27q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uj7mf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vmgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6unfe")
+}],
+"loop": true,
+"name": &"cast",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kww55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4h0vy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_56udc"]
-size = Vector2(32.75, 31.75)
+size = Vector2(6, 16)
 
 [node name="PlayerCharacter" type="CharacterBody2D"]
 collision_mask = 0
 motion_mode = 1
 script = ExtResource("1_6r27q")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("1_56udc")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_uj7mf")
+autoplay = "default"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_56udc")

@@ -30,13 +30,12 @@ func _input(event):
 			'time': 0
 		}
 	elif is_recording and record_pressed and not player.is_control_locked:
-		print("Record end")
 		actions.append(current_action)
 		record_origin = Vector2.ZERO
 		time_since_last_record = 0
 		is_recording = false
 		SignalBus.record_end.emit(actions)
-		print(actions)
+		#print(actions)
 	var replay_pressed: bool = event.is_action_pressed("replay")
 	if replay_pressed and not actions.is_empty() and not is_recording:
 		SignalBus.replay.emit(player.position)
@@ -44,15 +43,21 @@ func _input(event):
 		
 	#region Spell
 	# TODO: Handle recording and casting delay
-	if event.is_action_pressed("spell_1") and not player.is_control_locked:
-		cast_spell.emit(Spell.SHURIKEN)
-		#SignalBus.start_spell.emit(get_parent(), Spell.SHURIKEN)
-		if is_recording:
+	if not player.is_control_locked:
+		if event.is_action_pressed("spell_1"):
+			add_spell_action(Spell.SHURIKEN)
+		elif event.is_action_pressed("spell_2"):
+			add_spell_action(Spell.FIRE)
+	#endregion
+
+func add_spell_action(spell: Spell):
+	cast_spell.emit(spell)
+	if is_recording:
 			# Flush
 			actions.append(current_action)
 			var new_action = {
 				'type': 'spell',
-				'spell': Spell.SHURIKEN,
+				'spell': spell,
 				'time': 0
 			}
 			actions.append(new_action)
@@ -61,7 +66,6 @@ func _input(event):
 				'direction': Vector2.ZERO,
 				'time': 0
 			}
-	#endregion
 
 func _physics_process(delta):
 	var prev_direction = current_direction

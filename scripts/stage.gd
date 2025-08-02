@@ -30,7 +30,8 @@ func spawn_clone_player(spawn_position: Vector2):
 	var cpu_controller = CpuController.new()
 	cloned_player_node.add_child(cpu_controller)
 	add_child(cloned_player_node)
-	cloned_player_node.sprite_2d.modulate = Color.RED
+	cloned_player_node.sprite_2d.modulate = Color.WHITE
+	cloned_player_node.sprite_2d.modulate.a = 0.5
 	cpu_controller.actions = current_actions
 	cpu_controller.player = cloned_player_node
 	cpu_controller.origin = Vector2(spawn_position.x, spawn_position.y)
@@ -43,13 +44,23 @@ func spawn_spell(origin: Node2D, spell: SignalBus.Spell):
 		Spell.SHURIKEN:
 			spawn_shuriken(origin)
 			
-func spawn_fireballs(origin: Node2D):
-	pass
 
 func spawn_shuriken(origin: Node2D):
-	print("Spawning shuriken")
 	for direction in SHURIKEN_DIRECTIONS:
 		var shuriken = SHURIKEN_ATTACK.instantiate()
 		shuriken.direction = direction
 		shuriken.position = origin.position
 		add_child(shuriken)
+
+const FIREBALL_COUNT := 8
+
+func spawn_fireballs(origin: Node2D):
+	for i in FIREBALL_COUNT:
+		var fireball := FIRE_ATTACK.instantiate()
+		var spawn_offset: Vector2 = Vector2.RIGHT * fireball.radius
+		var spawn_location: Vector2 = origin.position + Vector2.RIGHT * fireball.radius
+		var rotation_angle := ((2*PI) / FIREBALL_COUNT) * i
+		spawn_offset = spawn_offset.rotated(rotation_angle)
+		fireball.position = origin.position + spawn_offset
+		fireball.target = origin
+		add_child(fireball)

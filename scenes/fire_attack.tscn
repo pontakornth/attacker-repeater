@@ -57,10 +57,11 @@ radius = 7.0
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_y45gd")
+angle_per_second = 4.71239
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gqx6m")
-frame_progress = 0.0577999
+frame_progress = 0.73212
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8fnuo")
@@ -73,3 +74,10 @@ metadata/_custom_type_script = "uid://bjs1rn3do52ws"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
 shape = SubResource("CircleShape2D_rjy0l")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

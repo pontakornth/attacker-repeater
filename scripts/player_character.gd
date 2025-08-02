@@ -3,7 +3,6 @@ class_name Player
 
 @export var speed := 200
 @export var is_clone := false
-# TODO: Change to animated sprite or use the one with animation player
 @onready var sprite_2d = $Sprite2D
 @onready var spell_cast_timer = $SpellCastTimer
 
@@ -16,12 +15,29 @@ func _ready():
 		# Assume one controller
 		if child is Controller:
 			child.cast_spell.connect(cast_spell)
+		if child is Damageable:
+			print("Playable = damageable")
+			#child.on_invincible_start.connect(set_alpha)
+			#child.on_invincible_end.connect(set_not_alpha)
+			child.on_death.connect(on_death)
 
 func cast_spell(spell: Spell):
 	spell_cast_timer.start()
+	sprite_2d.play("cast")
 	is_control_locked = true
 	SignalBus.start_spell.emit(self, spell)
 
+func set_alpha():
+	modulate.a = 0.5
+
+func set_not_alpha():
+	modulate.a = 1
+	
+func on_death():
+	SignalBus.game_over.emit()
+	# Cheap way to use nothing
+	process_mode = Node.PROCESS_MODE_DISABLED
 
 func _on_spell_cast_timer_timeout():
+	sprite_2d.play("default")
 	is_control_locked = false
