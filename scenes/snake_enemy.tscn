@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://o5g3mqcjq2j4"]
+[gd_scene load_steps=9 format=3 uid="uid://o5g3mqcjq2j4"]
 
 [ext_resource type="Texture2D" uid="uid://df20tq4ylicyj" path="res://arts/enemies.png" id="1_43ksy"]
 [ext_resource type="Script" uid="uid://567lnnemyjsm" path="res://scripts/snake_enemy.gd" id="1_xuhag"]
 [ext_resource type="Script" uid="uid://yabvi1um860x" path="res://scripts/damageable.gd" id="3_d7uf6"]
 [ext_resource type="Script" uid="uid://iyf2pvdgdq2g" path="res://scripts/iframe_alpha.gd" id="4_q7til"]
 [ext_resource type="Script" uid="uid://bjs1rn3do52ws" path="res://scripts/attack.gd" id="5_mc653"]
+[ext_resource type="AudioStream" uid="uid://bvuwmue8p4g5u" path="res://audios/FGHTImpt_MELEE-Gut Punch_HY_PC-003.wav" id="6_b8sdj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_43ksy"]
 size = Vector2(12, 7)
@@ -12,7 +13,7 @@ size = Vector2(12, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mc653"]
 size = Vector2(8, 14)
 
-[node name="SnakeEnemy" type="CharacterBody2D"]
+[node name="SnakeEnemy" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
 collision_mask = 4
 motion_mode = 1
@@ -34,8 +35,8 @@ autostart = true
 
 [node name="Damageable" type="Node" parent="."]
 script = ExtResource("3_d7uf6")
-max_health = 3
-health = 3
+max_health = 1
+health = 1
 metadata/_custom_type_script = "uid://yabvi1um860x"
 
 [node name="IFrameAlpha" type="Node" parent="." node_paths=PackedStringArray("node_to_adjust", "damageable")]
@@ -53,6 +54,9 @@ metadata/_custom_type_script = "uid://bjs1rn3do52ws"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_mc653")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_b8sdj")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="on_death" from="Damageable" to="." method="_on_damageable_on_death"]

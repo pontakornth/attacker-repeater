@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4a5hkk4sovtf"]
+[gd_scene load_steps=11 format=3 uid="uid://c4a5hkk4sovtf"]
 
 [ext_resource type="PackedScene" uid="uid://b3gmrxeqv2oos" path="res://scenes/player_character.tscn" id="1_8rem4"]
 [ext_resource type="Script" uid="uid://4iwitnupj1gs" path="res://scripts/stage.gd" id="1_gi7kc"]
@@ -7,7 +7,13 @@
 [ext_resource type="Script" uid="uid://iyf2pvdgdq2g" path="res://scripts/iframe_alpha.gd" id="5_st0q7"]
 [ext_resource type="PackedScene" uid="uid://bk6r5305n7hru" path="res://scenes/bull_enemy.tscn" id="5_vcsse"]
 [ext_resource type="Texture2D" uid="uid://dnihu44ovvk1b" path="res://arts/background.png" id="6_2so7o"]
-[ext_resource type="PackedScene" uid="uid://o5g3mqcjq2j4" path="res://scenes/snake_enemy.tscn" id="8_1hwpr"]
+[ext_resource type="AudioStream" uid="uid://chbgpfomlw575" path="res://audios/09 - Battle 2.ogg" id="8_1hwpr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1hwpr"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dexii"]
+bg_color = Color(1, 0, 0, 1)
 
 [node name="Stage" type="Node2D" node_paths=PackedStringArray("original_player")]
 script = ExtResource("1_gi7kc")
@@ -35,10 +41,19 @@ remote_path = NodePath("../../Camera2D")
 script = ExtResource("5_st0q7")
 node_to_adjust = NodePath("..")
 damageable = NodePath("../Damageable")
+alpha_value = 0.8
 metadata/_custom_type_script = "uid://iyf2pvdgdq2g"
 
-[node name="BullEnemy" parent="." instance=ExtResource("5_vcsse")]
-position = Vector2(125, 37)
+[node name="HealthBar" type="ProgressBar" parent="MainPlayer"]
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 14.0
+offset_bottom = -14.0
+theme_override_styles/background = SubResource("StyleBoxFlat_1hwpr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dexii")
+max_value = 20.0
+value = 20.0
+show_percentage = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(17, 14)
@@ -51,5 +66,37 @@ z_index = -1
 texture = ExtResource("6_2so7o")
 centered = false
 
-[node name="SnakeEnemy" parent="." instance=ExtResource("8_1hwpr")]
-position = Vector2(444, 231)
+[node name="BullEnemy" parent="." instance=ExtResource("5_vcsse")]
+position = Vector2(320, 232)
+
+[node name="ShurikenTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="FireballsTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="SeekerTimer" type="Timer" parent="."]
+wait_time = 30.0
+autostart = true
+
+[node name="LoopTimer" type="Timer" parent="."]
+wait_time = 20.0
+autostart = true
+
+[node name="EnemiesTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_1hwpr")
+volume_db = -12.0
+autoplay = true
+
+[connection signal="on_health_changed" from="MainPlayer/Damageable" to="." method="_on_damageable_on_health_changed"]
+[connection signal="timeout" from="ShurikenTimer" to="." method="_on_shuriken_timer_timeout"]
+[connection signal="timeout" from="FireballsTimer" to="." method="_on_fireballs_timer_timeout"]
+[connection signal="timeout" from="SeekerTimer" to="." method="_on_seeker_timer_timeout"]
+[connection signal="timeout" from="LoopTimer" to="." method="_on_loop_timer_timeout"]
+[connection signal="timeout" from="EnemiesTimer" to="." method="_on_enemies_timer_timeout"]

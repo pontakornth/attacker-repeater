@@ -19,3 +19,8 @@ func reset_variables():
 	loops_possible = 3
 	replay_time = 5
 	time_left = 100
+	attack_available = {
+		Spell.FIRE: 1,
+		Spell.SHURIKEN: 1,
+		Spell.SEEKER: 0
+	}

@@ -5,6 +5,10 @@ class_name Player
 @export var is_clone := false
 @onready var sprite_2d = $Sprite2D
 @onready var spell_cast_timer = $SpellCastTimer
+@onready var shuriken_audio = $ShurikenAudio
+@onready var fire_audio = $FireAudio
+@onready var seeker_audio = $SeekerAudio
+
 
 @export var is_control_locked := false
 
@@ -25,6 +29,13 @@ func cast_spell(spell: Spell):
 	spell_cast_timer.start()
 	sprite_2d.play("cast")
 	is_control_locked = true
+	match spell:
+		Spell.FIRE:
+			fire_audio.play()
+		Spell.SHURIKEN:
+			shuriken_audio.play()
+		Spell.SEEKER:
+			seeker_audio.play()
 	SignalBus.start_spell.emit(self, spell)
 
 func set_alpha():
@@ -36,7 +47,7 @@ func set_not_alpha():
 func on_death():
 	SignalBus.game_over.emit()
 	# Cheap way to use nothing
-	process_mode = Node.PROCESS_MODE_DISABLED
+	#process_mode = Node.PROCESS_MODE_DISABLED
 
 func _on_spell_cast_timer_timeout():
 	sprite_2d.play("default")

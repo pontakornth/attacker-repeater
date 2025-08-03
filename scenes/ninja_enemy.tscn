@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://cuqmvefqd17yx"]
+
+[ext_resource type="Script" uid="uid://ch0eohbopc8hv" path="res://scripts/ninja_enemy.gd" id="1_sjjwg"]
+[ext_resource type="Texture2D" uid="uid://df20tq4ylicyj" path="res://arts/enemies.png" id="1_tlxmy"]
+[ext_resource type="Script" uid="uid://bjs1rn3do52ws" path="res://scripts/attack.gd" id="2_kpbdr"]
+[ext_resource type="Script" uid="uid://yabvi1um860x" path="res://scripts/damageable.gd" id="4_cfnhr"]
+[ext_resource type="Script" uid="uid://iyf2pvdgdq2g" path="res://scripts/iframe_alpha.gd" id="5_cfnhr"]
+[ext_resource type="AudioStream" uid="uid://bvuwmue8p4g5u" path="res://audios/FGHTImpt_MELEE-Gut Punch_HY_PC-003.wav" id="6_h1lqv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpbdr"]
+size = Vector2(8, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_scuj4"]
+size = Vector2(6, 9)
+
+[node name="NinjaEnemy" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 4
+motion_mode = 1
+script = ExtResource("1_sjjwg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tlxmy")
+hframes = 3
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_kpbdr")
+
+[node name="Attack" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource("2_kpbdr")
+metadata/_custom_type_script = "uid://bjs1rn3do52ws"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_scuj4")
+
+[node name="Damageable" type="Node" parent="."]
+script = ExtResource("4_cfnhr")
+max_health = 10
+health = 10
+invincible_time = 0.1
+metadata/_custom_type_script = "uid://yabvi1um860x"
+
+[node name="IFrameAlpha" type="Node" parent="." node_paths=PackedStringArray("node_to_adjust", "damageable")]
+script = ExtResource("5_cfnhr")
+node_to_adjust = NodePath("..")
+damageable = NodePath("../Damageable")
+metadata/_custom_type_script = "uid://iyf2pvdgdq2g"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_h1lqv")
+
+[connection signal="on_death" from="Damageable" to="." method="_on_damageable_on_death"]

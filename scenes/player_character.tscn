@@ -1,7 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://b3gmrxeqv2oos"]
+[gd_scene load_steps=14 format=3 uid="uid://b3gmrxeqv2oos"]
 
 [ext_resource type="Script" uid="uid://c2tqljr5r6mby" path="res://scripts/player_character.gd" id="1_6r27q"]
 [ext_resource type="Texture2D" uid="uid://bsa62o1bswkk2" path="res://arts/wizard.png" id="2_6r27q"]
+[ext_resource type="AudioStream" uid="uid://ccmt22emf1lot" path="res://audios/MAGSpel_CAST-Panicked_HY_PC-003.wav" id="3_kww55"]
+[ext_resource type="AudioStream" uid="uid://cffvdrmpwp53u" path="res://audios/DSGNImpt_EXPLOSION-Fire Hit_HY_PC-005.wav" id="4_4h0vy"]
+[ext_resource type="AudioStream" uid="uid://dbaj3phitu0iv" path="res://audios/MAGSpel_CAST-Zappy Tone_HY_PC-001.wav" id="5_uj7mf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6r27q"]
 atlas = ExtResource("2_6r27q")
@@ -75,7 +78,16 @@ shape = SubResource("RectangleShape2D_56udc")
 
 [node name="SpellCastTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 3.0
+wait_time = 0.3
 one_shot = true
+
+[node name="ShurikenAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_kww55")
+
+[node name="FireAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_4h0vy")
+
+[node name="SeekerAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_uj7mf")
 
 [connection signal="timeout" from="SpellCastTimer" to="." method="_on_spell_cast_timer_timeout"]

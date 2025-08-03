@@ -14,6 +14,7 @@ func _ready():
 
 func _physics_process(delta):
 	if loops <= 0 and current_action == null and running_sequence.is_empty():
+		print("no more action")
 		get_parent().queue_free()
 		return
 	if current_action:
@@ -28,7 +29,7 @@ func _physics_process(delta):
 	player.move_and_slide()
 	if running_sequence.is_empty():
 		loops -= 1
-		if loops >= 0:
+		if loops > 0:
 			player.position = origin
 			running_sequence = actions.duplicate()
 	if loops <= 0 and current_action == null and running_sequence.is_empty():

@@ -1,5 +1,7 @@
 extends CharacterBody2D
 @export var speed := 150
+@export var score := 25
+@onready var audio_stream_player_2d = $AudioStreamPlayer2D
 
 var target: Node2D = null
 
@@ -24,4 +26,6 @@ func _on_timer_timeout():
 
 
 func _on_damageable_on_death():
+	SignalBus.add_score.emit(score)
+	audio_stream_player_2d.play()
 	queue_free()

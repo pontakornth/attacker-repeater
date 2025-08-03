@@ -17,7 +17,7 @@ var actions: Array[Dictionary] = []
 func _input(event):
 	var record_pressed:bool = event.is_action_pressed("record")
 	if not is_recording and record_pressed and can_record_actions and not player.is_control_locked:
-		print("Record start")
+		SignalBus.record_start.emit()
 		is_recording = true
 		record_origin = Vector2(player.position)
 		print(record_origin)
@@ -34,7 +34,7 @@ func _input(event):
 		record_origin = Vector2.ZERO
 		time_since_last_record = 0
 		is_recording = false
-		SignalBus.record_end.emit(actions)
+		SignalBus.record_end.emit(actions,self)
 		#print(actions)
 	var replay_pressed: bool = event.is_action_pressed("replay")
 	if replay_pressed and not actions.is_empty() and not is_recording:
@@ -42,15 +42,19 @@ func _input(event):
 		actions = []
 		
 	#region Spell
-	# TODO: Handle recording and casting delay
 	if not player.is_control_locked:
 		if event.is_action_pressed("spell_1"):
 			add_spell_action(Spell.SHURIKEN)
 		elif event.is_action_pressed("spell_2"):
 			add_spell_action(Spell.FIRE)
+		elif event.is_action_pressed("spell_3"):
+			add_spell_action(Spell.SEEKER)
 	#endregion
 
 func add_spell_action(spell: Spell):
+	if Globals.attack_available[spell] <= 0:
+		return
+	Globals.attack_available[spell] -= 1
 	cast_spell.emit(spell)
 	if is_recording:
 			# Flush

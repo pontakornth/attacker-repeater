@@ -27,7 +27,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h2q5g"]
-radius = 57.1402
+radius = 370.163
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ufptn"]
 radius = 7.0
@@ -58,6 +58,7 @@ shape = SubResource("CircleShape2D_ufptn")
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("2_w6a5l")
+amount = 10
 metadata/_custom_type_script = "uid://bjs1rn3do52ws"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Attack"]
@@ -70,6 +71,7 @@ autostart = true
 [node name="DeathTimer" type="Timer" parent="."]
 wait_time = 20.0
 one_shot = true
+autostart = true
 
 [connection signal="timeout" from="SeekingTimer" to="." method="_on_seeking_timer_timeout"]
 [connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
